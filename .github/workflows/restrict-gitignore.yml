@@ -11,7 +11,7 @@ jobs:
       - name: Get Commit Author
         run: |
           AUTHOR=$(git log -1 --pretty=format:'%an')
-          REPO_OWNER="sumitraj9968"
+          REPO_OWNER="sumitraj998"
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '^.gitignore$' || true)
 
           if [[ ! -z "$CHANGED_FILES" && "$AUTHOR" != "$REPO_OWNER" ]]; then
