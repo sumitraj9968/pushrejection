@@ -1,0 +1,20 @@
+name: Restrict .gitignore Changes
+on: [push, pull_request]
+
+jobs:
+  check-gitignore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Get Commit Author
+        run: |
+          AUTHOR=$(git log -1 --pretty=format:'%an')
+          REPO_OWNER="sumitraj9968"
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '^.gitignore$' || true)
+
+          if [[ ! -z "$CHANGED_FILES" && "$AUTHOR" != "$REPO_OWNER" ]]; then
+            echo "Push rejected: Only the repository owner can modify .gitignore."
+            exit 1
+          fi
